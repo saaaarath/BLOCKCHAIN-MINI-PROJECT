@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { authenticate, authorize } from '../middleware/auth.js';
+import { deleteRecord, downloadRecord, getRecord, indexBlockchainRecord, listRecords, upload, uploadRecord } from '../controllers/recordController.js';
+export const recordRoutes = Router();
+recordRoutes.use(authenticate);
+recordRoutes.post('/upload', authorize('PATIENT'), upload.single('file'), uploadRecord);
+recordRoutes.patch('/:recordId/blockchain', authorize('PATIENT'), indexBlockchainRecord);
+recordRoutes.get('/', listRecords);
+recordRoutes.get('/:recordId/download', downloadRecord);
+recordRoutes.get('/:recordId', getRecord);
+recordRoutes.delete('/:recordId', authorize('PATIENT'), deleteRecord);

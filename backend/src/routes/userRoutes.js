@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { authenticate, authorize } from '../middleware/auth.js';
+import { changePassword, doctors, patients, profile, updateProfile } from '../controllers/userController.js';
+export const userRoutes = Router();
+userRoutes.use(authenticate);
+userRoutes.get('/profile', profile);
+userRoutes.put('/profile', updateProfile);
+userRoutes.put('/password', changePassword);
+userRoutes.get('/doctors', doctors);
+userRoutes.get('/patients', authorize('DOCTOR'), patients);

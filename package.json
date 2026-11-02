@@ -1,0 +1,26 @@
+{
+  "name": "blockchain-phr",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "blockchain"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "test": "npm run test:backend && npm run test:contracts",
+    "test:backend": "npm --workspace backend test",
+    "test:integration": "npm --workspace backend run test:integration",
+    "dev:frontend": "npm --workspace frontend run dev",
+    "dev:backend": "npm --workspace backend run dev",
+    "dev:blockchain": "npm --workspace blockchain run node",
+    "build:frontend": "npm --workspace frontend run build",
+    "compile": "npm --workspace blockchain run compile",
+    "test:contracts": "npm --workspace blockchain test",
+    "deploy:local": "npm --workspace blockchain run deploy:local"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1"
+  }
+}

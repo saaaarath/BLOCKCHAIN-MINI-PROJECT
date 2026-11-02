@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { authenticate, authorize } from '../middleware/auth.js';
+import { approve, blockchainRequests, reject, requestAccess, requests, revoke, verifyAccess } from '../controllers/accessController.js';
+export const accessRoutes = Router();
+accessRoutes.use(authenticate);
+accessRoutes.post('/request', authorize('DOCTOR'), requestAccess);
+accessRoutes.get('/requests', requests);
+accessRoutes.get('/blockchain-requests', authorize('PATIENT'), blockchainRequests);
+accessRoutes.get('/verify/:patientId', authorize('DOCTOR'), verifyAccess);
+accessRoutes.post('/approve', authorize('PATIENT'), approve);
+accessRoutes.post('/reject', authorize('PATIENT'), reject);
+accessRoutes.post('/revoke', authorize('PATIENT'), revoke);

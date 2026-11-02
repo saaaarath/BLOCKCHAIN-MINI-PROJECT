@@ -1,0 +1,28 @@
+import express from 'express';
+import cors from 'cors';
+import { env } from './config/env.js';
+import { healthRoutes } from './routes/healthRoutes.js';
+import { errorHandler, notFound } from './middleware/errorHandler.js';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import { authRoutes } from './routes/authRoutes.js';
+import { userRoutes } from './routes/userRoutes.js';
+import { recordRoutes } from './routes/recordRoutes.js';
+import { accessRoutes } from './routes/accessRoutes.js';
+import { dashboardRoutes } from './routes/dashboardRoutes.js';
+import { blockchainRoutes } from './routes/blockchainRoutes.js';
+
+export const app = express();
+app.use(helmet());
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 200, standardHeaders: 'draft-7', legacyHeaders: false }));
+app.use(cors({ origin: env.frontendOrigin }));
+app.use(express.json({ limit: '1mb' }));
+app.use('/api/health', healthRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/records', recordRoutes);
+app.use('/api/access', accessRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/blockchain', blockchainRoutes);
+app.use(notFound);
+app.use(errorHandler);
